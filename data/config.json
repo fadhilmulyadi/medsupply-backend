@@ -1,0 +1,18 @@
+{
+  "weights": {
+    "wd": 0.6,
+    "wo": 0.3,
+    "wf": 0.1,
+    "ws": 1000
+  },
+  "constraints": {
+    "radius_km": 30,
+    "kelas_min": "C",
+    "max_load": 0.85
+  },
+  "policy": {
+    "target_occupancy": 0.7,
+    "use_tt_per_1000": false
+  },
+  "forecast_horizon_days": 7
+}

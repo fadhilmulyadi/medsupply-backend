@@ -1,0 +1,5 @@
+id_pasien,kasus,severity,lat,lon,wilayah
+P001,IGD,3,-5.150,119.420,Makassar
+P002,IGD,2,-5.142,119.423,Makassar
+P003,ICU,5,-5.139,119.410,Makassar
+P004,Rawat Inap,1,-5.154,119.435,Makassar

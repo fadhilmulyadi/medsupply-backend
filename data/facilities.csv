@@ -1,0 +1,5 @@
+id_rs,nama,kelas,capacity_tt,occupied_tt,services,lat,lon,wilayah
+RS001,RS Wahidin Sudirohusodo,A,300,220,"IGD;ICU;Rawat Inap",-5.140,119.412,Makassar
+RS002,RS Siloam Makassar,B,200,150,"IGD;Rawat Inap",-5.152,119.431,Makassar
+RS003,RS Tk.II Pelamonia,C,150,60,"IGD;ICU",-5.135,119.436,Makassar
+RS004,RS Labuang Baji,B,120,90,"IGD;Rawat Inap",-5.148,119.407,Makassar
