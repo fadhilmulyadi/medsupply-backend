@@ -5,6 +5,8 @@ from app.core.config import load_config
 from app.api.v1.endpoints.health import router as health_router
 from app.api.v1.endpoints.facilities import router as facilities_router
 from app.api.v1.endpoints.matching import router as matching_router
+from app.api.v1.endpoints.metrics import router as metrics_router
+from app.api.v1.endpoints.explain import router as explain_router
 
 app = FastAPI(
     title="MedSupply AI Backend",
@@ -18,6 +20,8 @@ config = load_config()
 app.include_router(health_router, prefix="/api/v1")
 app.include_router(facilities_router, prefix="/api/v1")
 app.include_router(matching_router, prefix="/api/v1")
+app.include_router(metrics_router, prefix="/api/v1")
+app.include_router(explain_router, prefix="/api/v1")
 
 
 @app.get("/")

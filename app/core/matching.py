@@ -191,4 +191,30 @@ def greedy_match(
         "total_unassigned": total_unassigned,
     }
 
-    return {"summary": summary, "assignments": assignments}
+    # Snapshot fasilitas dengan occupancy akhir
+    facilities_snapshot: List[Dict[str, Any]] = []
+    for _, rs in facilities_df.iterrows():
+        rs_id = rs["id_rs"]
+        cap_info = capacity_map.get(rs_id)
+        if not cap_info:
+            continue
+        cap = float(cap_info["capacity_tt"])
+        occ = float(cap_info["occupied_tt"])
+        occ_ratio = occ / cap if cap > 0 else 0.0
+
+        facilities_snapshot.append(
+            {
+                "hospital_id": str(rs_id),
+                "capacity_tt": cap,
+                "occupied_tt": occ,
+                "occ_ratio": float(occ_ratio),
+                "wilayah": rs.get("wilayah"),
+                "kelas": rs.get("kelas"),
+            }
+        )
+
+    return {
+        "summary": summary,
+        "assignments": assignments,
+        "facilities": facilities_snapshot,
+    }
