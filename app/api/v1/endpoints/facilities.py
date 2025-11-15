@@ -1,20 +1,47 @@
-from fastapi import APIRouter
+# app/api/v1/endpoints/facilities.py
+from typing import List, Optional, Any
 
-from app.core.load import load_data
-from app.core.supply import compute_occupancy_summary
+from fastapi import APIRouter, Query
+from pydantic import BaseModel
 
-router = APIRouter(prefix="/facilities", tags=["facilities"])
+from app.core.data_access import load_facilities_df
+
+router = APIRouter(tags=["facilities"])
 
 
-@router.get("")
-async def list_facilities():
+class Facility(BaseModel):
+    id_rs: str
+    name: Optional[str]
+    lat: float
+    lon: float
+    capacity_tt: int
+    occupied_tt: int
+    available_tt: int
+    services: List[str]
+    wilayah: str
+
+
+@router.get("/facilities", response_model=list[Facility])
+def list_facilities(
+    wilayah: Optional[str] = Query(
+        None,
+        description="Filter berdasarkan wilayah, misal: Makassar",
+    ),
+    service_type: Optional[str] = Query(
+        None,
+        description="Filter RS yang punya layanan tertentu, misal: UGD, ICU",
+    ),
+) -> Any:
     """
-    Return all facilities with basic occupancy info.
+    Ambil daftar fasilitas dari database.
+    - Bisa difilter berdasarkan wilayah
+    - Bisa difilter berdasarkan jenis layanan (service_type)
     """
-    facilities_df, _ = load_data()
-    facilities_with_occ = compute_occupancy_summary(facilities_df)
+    df = load_facilities_df(wilayah=wilayah)
 
-    return {
-        "count": len(facilities_with_occ),
-        "items": facilities_with_occ.to_dict(orient="records"),
-    }
+    # Filter berdasarkan service_type di sisi Python (karena kolomnya array)
+    if service_type:
+        df = df[df["services"].apply(lambda s: service_type in s if s is not None else False)]
+
+    records = df.to_dict(orient="records")
+    return records
